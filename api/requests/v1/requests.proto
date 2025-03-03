@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api;
+
+message Request {
+    string id = 1;
+    string data = 2;
+    string created_at = 3;
+}
+
+message RequestList {
+    repeated Request requests = 1;
+}
+
+message RequestStatus {
+    string id = 1;
+    string status = 2;
+}
+
+service RequestService {
+    rpc GetRequests (Empty) returns (RequestList);
+    rpc CreateRequest (Request) returns (Request);
+    rpc UpdateRequest (Request) returns (Request);
+    rpc GetRequestStatus (Request) returns (RequestStatus);
+}
+
+message Empty {}
+
