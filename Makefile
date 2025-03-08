@@ -23,7 +23,7 @@ STAMPDIR := .stamp
 COLOR := "\e[1;36m%s\e[0m\n"
 
 PROTO_ROOT := .
-PROTO_FILES = $(shell find temporal -name "*.proto")
+PROTO_FILES = $(shell find api -name "*.proto")
 PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
 PROTO_OUT := .gen
 PROTO_IMPORTS = \
@@ -52,7 +52,8 @@ go-grpc: clean $(PROTO_OUT)
 		-p doc_out=html,index.html,source_relative:$(PROTO_OUT)
 
 fix-path:
-	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
+	mv -f $(PROTO_OUT)/api/* $(PROTO_OUT) 
+	# && rm -rf $(PROTO_OUT)/temporal
 
 # We need to rewrite bits of this to support our shorthand payload format
 # We use both yq and jq here as they preserve comments and the ordering of the original
@@ -63,8 +64,8 @@ http-api-docs:
 		--openapi_opt=enum_type=string \
 		--openapiv2_out=openapi \
         --openapiv2_opt=allow_merge=true,merge_file_name=openapiv2,simple_operation_ids=true \
-		temporal/api/workflowservice/v1/* \
-		temporal/api/operatorservice/v1/*
+		api/workflowservice/v1/* \
+		api/operatorservice/v1/*
 
 	jq --rawfile desc $(OAPI_OUT)/payload_description.txt < $(OAPI_OUT)/openapiv2.swagger.json '.definitions.v1Payload={description: $$desc}' > $(OAPI_OUT)/v2.tmp
 	mv -f $(OAPI_OUT)/v2.tmp $(OAPI_OUT)/openapiv2.json
