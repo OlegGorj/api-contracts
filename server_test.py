@@ -4,8 +4,10 @@ import grpc
 import api.requests.v1.requests_pb2 as requests_pb2
 import api.requests.v1.requests_grpc as requests_grpc
 
+
 app = Flask(__name__)
 api = Api(app)
+
 
 class RequestsResource(Resource):
     def get(self):
