@@ -1,4 +1,6 @@
-# api-contracts
+# API contracts repository
+
+Repository to store API contracts and generate code from them.
 
 ## Local development
 
